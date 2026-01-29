@@ -1,4 +1,4 @@
-/* Einfaches Logo als Kreis */
+/* Platzhalter-Logo als Kreis */
 .logo-circle {
   width: 32px;
   height: 32px;
@@ -6,14 +6,51 @@
   border: 2px solid #fff;
 }
 
-/* Layout für das lokale Menü (links) – später passen wir das dynamisch an */
+/* Flex-Layout für lokales Menü + Inhalt */
+.layout-flex {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+/* Lokales Menü */
 #local-menu {
   max-width: 260px;
 }
 
-/* Auf kleineren Bildschirmen: Menü oben */
+#local-menu .nav-link {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+/* Mobil: Menü oben, Inhalt darunter */
 @media (max-width: 768px) {
-  #local-menu {
-    margin-bottom: 1rem;
+  .layout-flex {
+    flex-direction: column;
   }
+
+  #local-menu {
+    max-width: 100%;
+  }
+}
+
+/* Rechts-/links-Ausrichtung je nach Schriftkultur */
+body.rtl-layout .layout-flex {
+  flex-direction: row-reverse;
+}
+
+/* Sortier-Indikator in Tabellenkopf */
+#emissions-table thead th {
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+#emissions-table thead th.sort-active {
+  text-decoration: underline;
+}
+
+/* Hinweis, wenn keine Daten vorhanden sind */
+#no-results {
+  margin-top: 0.5rem;
 }
