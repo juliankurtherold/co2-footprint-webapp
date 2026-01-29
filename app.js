@@ -1,255 +1,155 @@
 // app.js
-// Logik für CO₂-Emissions-Tabelle: Daten, Filter, Sortierung, Layout
+// Interaktionslogik für CO₂-Emissionsdaten mit Vue 3
 
 "use strict";
 
-// Fiktive Emissionsdaten (Beispieldatensätze)
-const EMISSIONS_DATA = [
-  {
-    country: "Germany",
-    company: "GreenCorp",
-    sector: "Energie",
-    year: 2023,
-    emissions: 120.5
+const { createApp } = Vue;
+
+const RTL_LANGUAGES = ["ar", "he", "fa", "ur"];
+
+createApp({
+  data() {
+    return {
+      emissions: [
+        {
+          country: "Germany",
+          company: "GreenCorp",
+          sector: "Energie",
+          year: 2023,
+          emissions: 120.5
+        },
+        {
+          country: "Germany",
+          company: "AutoTech AG",
+          sector: "Automobil",
+          year: 2023,
+          emissions: 210.3
+        },
+        {
+          country: "Germany",
+          company: "SteelWorks GmbH",
+          sector: "Industrie",
+          year: 2022,
+          emissions: 350.9
+        },
+        {
+          country: "USA",
+          company: "MegaOil Inc.",
+          sector: "Öl & Gas",
+          year: 2023,
+          emissions: 980.1
+        },
+        {
+          country: "USA",
+          company: "CleanEnergy Co.",
+          sector: "Energie",
+          year: 2022,
+          emissions: 150.4
+        },
+        {
+          country: "France",
+          company: "NuClear SA",
+          sector: "Energie",
+          year: 2023,
+          emissions: 80.2
+        },
+        {
+          country: "Japan",
+          company: "Techno Motors",
+          sector: "Automobil",
+          year: 2023,
+          emissions: 190.7
+        },
+        {
+          country: "India",
+          company: "CoalPower Ltd.",
+          sector: "Energie",
+          year: 2023,
+          emissions: 730.0
+        }
+      ],
+      sortKey: null,
+      sortDirection: "asc",
+      filterCountry: "",
+      filterCompany: ""
+    };
   },
-  {
-    country: "Germany",
-    company: "AutoTech AG",
-    sector: "Automobil",
-    year: 2023,
-    emissions: 210.3
-  },
-  {
-    country: "Germany",
-    company: "SteelWorks GmbH",
-    sector: "Industrie",
-    year: 2022,
-    emissions: 350.9
-  },
-  {
-    country: "USA",
-    company: "MegaOil Inc.",
-    sector: "Öl & Gas",
-    year: 2023,
-    emissions: 980.1
-  },
-  {
-    country: "USA",
-    company: "CleanEnergy Co.",
-    sector: "Energie",
-    year: 2022,
-    emissions: 150.4
-  },
-  {
-    country: "France",
-    company: "NuClear SA",
-    sector: "Energie",
-    year: 2023,
-    emissions: 80.2
-  },
-  {
-    country: "Japan",
-    company: "Techno Motors",
-    sector: "Automobil",
-    year: 2023,
-    emissions: 190.7
-  },
-  {
-    country: "India",
-    company: "CoalPower Ltd.",
-    sector: "Energie",
-    year: 2023,
-    emissions: 730.0
-  }
-];
+  computed: {
+    normalizedFilterCountry() {
+      return this.filterCountry.trim().toLowerCase();
+    },
+    normalizedFilterCompany() {
+      return this.filterCompany.trim().toLowerCase();
+    },
+    filteredAndSortedEmissions() {
+      let result = this.emissions.filter((row) => {
+        const countryMatches =
+          !this.normalizedFilterCountry ||
+          row.country.toLowerCase().includes(this.normalizedFilterCountry);
 
-// Zustand für Sortierung und Filter
-let currentSort = {
-  key: null,
-  direction: "asc" // "asc" oder "desc"
-};
+        const companyMatches =
+          !this.normalizedFilterCompany ||
+          row.company.toLowerCase().includes(this.normalizedFilterCompany);
 
-let currentFilter = {
-  country: "",
-  company: ""
-};
+        return countryMatches && companyMatches;
+      });
 
-// Sicheres Einfügen von Text (Schutz vor injiziertem Code)
-function escapeHTML(str) {
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
-// Initialisierung nach Laden des Dokuments
-document.addEventListener("DOMContentLoaded", () => {
-  applyLanguageLayout();
-  setupSorting();
-  setupFiltering();
-  applyFiltersAndSort();
-});
-
-// Ausrichtung des lokalen Menüs je nach Sprache/Schriftkultur
-function applyLanguageLayout() {
-  const rtlLanguages = ["ar", "he", "fa", "ur"];
-  const htmlLang = (document.documentElement.lang || navigator.language || "").toLowerCase();
-  const langCode = htmlLang.split("-")[0];
-
-  if (rtlLanguages.includes(langCode)) {
-    document.body.classList.add("rtl-layout");
-  }
-}
-
-// Tabelle rendern
-function renderTable(data) {
-  const tbody = document.querySelector("#emissions-table tbody");
-  const noResults = document.getElementById("no-results");
-  if (!tbody) return;
-
-  tbody.innerHTML = "";
-
-  if (!data || data.length === 0) {
-    if (noResults) {
-      noResults.classList.remove("d-none");
-    }
-    return;
-  }
-
-  if (noResults) {
-    noResults.classList.add("d-none");
-  }
-
-  data.forEach((row) => {
-    const tr = document.createElement("tr");
-
-    tr.innerHTML = `
-      <td>${escapeHTML(row.country)}</td>
-      <td>${escapeHTML(row.company)}</td>
-      <td>${escapeHTML(row.sector)}</td>
-      <td>${escapeHTML(row.year)}</td>
-      <td>${escapeHTML(row.emissions.toFixed(1))}</td>
-    `;
-
-    tbody.appendChild(tr);
-  });
-}
-
-// Sortierlogik für Tabelle
-function setupSorting() {
-  const headers = document.querySelectorAll("#emissions-table thead th[data-sort-key]");
-  headers.forEach((th) => {
-    th.addEventListener("click", () => {
-      const key = th.dataset.sortKey;
-      if (!key) return;
-
-      if (currentSort.key === key) {
-        // Richtung umdrehen
-        currentSort.direction = currentSort.direction === "asc" ? "desc" : "asc";
-      } else {
-        currentSort.key = key;
-        currentSort.direction = "asc";
+      if (!this.sortKey) {
+        return result;
       }
 
-      updateSortIndicators();
-      applyFiltersAndSort();
-    });
-  });
-}
+      const key = this.sortKey;
+      const direction = this.sortDirection;
 
-// Filterlogik (Formular)
-function setupFiltering() {
-  const form = document.getElementById("filter-form");
-  const resetButton = document.getElementById("reset-filters");
+      return [...result].sort((a, b) => {
+        const valueA = a[key];
+        const valueB = b[key];
 
-  if (form) {
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
+        if (typeof valueA === "number" && typeof valueB === "number") {
+          return direction === "asc" ? valueA - valueB : valueB - valueA;
+        }
 
-      const countryInput = document.getElementById("country-filter");
-      const companyInput = document.getElementById("company-filter");
+        const textA = String(valueA).toLowerCase();
+        const textB = String(valueB).toLowerCase();
 
-      currentFilter.country = (countryInput?.value || "").trim().toLowerCase();
-      currentFilter.company = (companyInput?.value || "").trim().toLowerCase();
-
-      applyFiltersAndSort();
-    });
-  }
-
-  if (resetButton) {
-    resetButton.addEventListener("click", () => {
-      const countryInput = document.getElementById("country-filter");
-      const companyInput = document.getElementById("company-filter");
-
-      if (countryInput) countryInput.value = "";
-      if (companyInput) companyInput.value = "";
-
-      currentFilter.country = "";
-      currentFilter.company = "";
-
-      applyFiltersAndSort();
-    });
-  }
-}
-
-// Filter + Sortierung gemeinsam anwenden
-function applyFiltersAndSort() {
-  let result = EMISSIONS_DATA.filter((row) => {
-    const countryMatches =
-      !currentFilter.country ||
-      row.country.toLowerCase().includes(currentFilter.country);
-    const companyMatches =
-      !currentFilter.company ||
-      row.company.toLowerCase().includes(currentFilter.company);
-
-    return countryMatches && companyMatches;
-  });
-
-  if (currentSort.key) {
-    result = sortData(result, currentSort.key, currentSort.direction);
-  }
-
-  renderTable(result);
-}
-
-// Datensätze nach Spalte sortieren
-function sortData(data, key, direction) {
-  const sorted = [...data];
-
-  sorted.sort((a, b) => {
-    const valueA = a[key];
-    const valueB = b[key];
-
-    if (typeof valueA === "number" && typeof valueB === "number") {
-      return direction === "asc" ? valueA - valueB : valueB - valueA;
+        if (textA < textB) return direction === "asc" ? -1 : 1;
+        if (textA > textB) return direction === "asc" ? 1 : -1;
+        return 0;
+      });
     }
+  },
+  methods: {
+    setSort(key) {
+      if (this.sortKey === key) {
+        this.sortDirection = this.sortDirection === "asc" ? "desc" : "asc";
+      } else {
+        this.sortKey = key;
+        this.sortDirection = "asc";
+      }
+    },
+    headerLabel(key, baseLabel) {
+      if (this.sortKey !== key) {
+        return baseLabel;
+      }
+      const arrow = this.sortDirection === "asc" ? " ▲" : " ▼";
+      return baseLabel + arrow;
+    },
+    resetFilters() {
+      this.filterCountry = "";
+      this.filterCompany = "";
+    },
+    applyLanguageLayout() {
+      const htmlLang = (document.documentElement.lang || navigator.language || "").toLowerCase();
+      const langCode = htmlLang.split("-")[0];
 
-    const textA = String(valueA).toLowerCase();
-    const textB = String(valueB).toLowerCase();
-
-    if (textA < textB) return direction === "asc" ? -1 : 1;
-    if (textA > textB) return direction === "asc" ? 1 : -1;
-    return 0;
-  });
-
-  return sorted;
-}
-
-// Sortier-Indikatoren im Tabellenkopf aktualisieren
-function updateSortIndicators() {
-  const headers = document.querySelectorAll("#emissions-table thead th[data-sort-key]");
-  headers.forEach((th) => {
-    const label = th.dataset.label || th.textContent.trim();
-    th.classList.remove("sort-active");
-
-    if (currentSort.key === th.dataset.sortKey) {
-      const arrow = currentSort.direction === "asc" ? "▲" : "▼";
-      th.textContent = `${label} ${arrow}`;
-      th.classList.add("sort-active");
-    } else {
-      th.textContent = label;
+      if (RTL_LANGUAGES.includes(langCode)) {
+        document.body.classList.add("rtl-layout");
+      } else {
+        document.body.classList.remove("rtl-layout");
+      }
     }
-  });
-}
+  },
+  mounted() {
+    this.applyLanguageLayout();
+  }
+}).mount("#app");

@@ -7,6 +7,13 @@ main {
   min-height: 70vh;
 }
 
+/* ---------- Header ---------- */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
 /* ---------- Logo ---------- */
 .logo-circle {
   width: 32px;

@@ -39,10 +39,9 @@
   </header>
 
   <main class="container mb-5">
-    <h2 class="visually-hidden">CO₂-Footprint Übersicht</h2>
-    <!-- Flex-Layout für lokales Menü + Inhalt -->
-    <div id="layout-flex" class="layout-flex">
-      <!-- Lokales Menü (links/rechts je nach Schriftkultur) -->
+    <!-- Vue-App-Container -->
+    <div id="app" class="layout-flex">
+      <!-- Lokales Menü -->
       <aside id="local-menu" class="mb-4" aria-label="Lokale Navigation">
         <nav class="nav flex-column">
           <a class="nav-link px-0" href="#dashboard">Emissionstabellen</a>
@@ -53,7 +52,6 @@
 
       <!-- Inhaltsspalte -->
       <div class="flex-grow-1">
-        <!-- Content-Bereich -->
         <section id="dashboard" class="mb-5">
           <h2 class="h5 mb-3">CO₂-Emissionsdaten</h2>
           <p class="text-muted">
@@ -62,7 +60,7 @@
 
           <!-- Filterbereich -->
           <section id="filters" class="card card-body mb-3">
-            <form id="filter-form" class="row g-3">
+            <form class="row g-3" @submit.prevent>
               <div class="col-md-4">
                 <label for="country-filter" class="form-label">Land</label>
                 <input
@@ -71,6 +69,7 @@
                   class="form-control"
                   placeholder="z. B. Germany"
                   autocomplete="off"
+                  v-model="filterCountry"
                 />
               </div>
               <div class="col-md-4">
@@ -81,13 +80,14 @@
                   class="form-control"
                   placeholder="z. B. GreenCorp"
                   autocomplete="off"
+                  v-model="filterCompany"
                 />
               </div>
               <div class="col-md-4 d-flex align-items-end">
                 <button type="submit" class="btn btn-primary me-2">
                   Filter anwenden
                 </button>
-                <button type="button" id="reset-filters" class="btn btn-outline-secondary">
+                <button type="button" class="btn btn-outline-secondary" @click="resetFilters">
                   Zurücksetzen
                 </button>
               </div>
@@ -102,30 +102,46 @@
             >
               <thead>
                 <tr>
-                  <th data-sort-key="country" data-label="Land" scope="col">
-                    Land
+                  <th scope="col"
+                      @click="setSort('country')"
+                      :class="{ 'sort-active': sortKey === 'country' }">
+                    {{ headerLabel('country', 'Land') }}
                   </th>
-                  <th data-sort-key="company" data-label="Unternehmen" scope="col">
-                    Unternehmen
+                  <th scope="col"
+                      @click="setSort('company')"
+                      :class="{ 'sort-active': sortKey === 'company' }">
+                    {{ headerLabel('company', 'Unternehmen') }}
                   </th>
-                  <th data-sort-key="sector" data-label="Sektor" scope="col">
-                    Sektor
+                  <th scope="col"
+                      @click="setSort('sector')"
+                      :class="{ 'sort-active': sortKey === 'sector' }">
+                    {{ headerLabel('sector', 'Sektor') }}
                   </th>
-                  <th data-sort-key="year" data-label="Jahr" scope="col">
-                    Jahr
+                  <th scope="col"
+                      @click="setSort('year')"
+                      :class="{ 'sort-active': sortKey === 'year' }">
+                    {{ headerLabel('year', 'Jahr') }}
                   </th>
-                  <th data-sort-key="emissions" data-label="CO₂-Emissionen (Mt)" scope="col">
-                    CO₂-Emissionen (Mt)
+                  <th scope="col"
+                      @click="setSort('emissions')"
+                      :class="{ 'sort-active': sortKey === 'emissions' }">
+                    {{ headerLabel('emissions', 'CO₂-Emissionen (Mt)') }}
                   </th>
                 </tr>
               </thead>
               <tbody>
-                <!-- Zeilen werden per JavaScript eingefügt -->
+                <tr v-for="(row, index) in filteredAndSortedEmissions" :key="index">
+                  <td>{{ row.country }}</td>
+                  <td>{{ row.company }}</td>
+                  <td>{{ row.sector }}</td>
+                  <td>{{ row.year }}</td>
+                  <td>{{ row.emissions.toFixed(1) }}</td>
+                </tr>
               </tbody>
             </table>
           </div>
 
-          <p id="no-results" class="text-muted d-none">
+          <p id="no-results" class="text-muted" v-if="filteredAndSortedEmissions.length === 0">
             Keine Datensätze für die aktuelle Filterung gefunden.
           </p>
         </section>
@@ -151,6 +167,9 @@
       </span>
     </div>
   </footer>
+
+  <!-- Vue.js (JavaScript-Framework) -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
 
   <!-- Bootstrap JS -->
   <script
