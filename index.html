@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.3">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="de"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;CO₂-Footprint Dashboard&lt;/title&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- Einfaches CSS-Framework: Bootstrap über CDN --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;link</p>
+<p class="p1"><span class="Apple-converted-space">    </span>rel="stylesheet"</p>
+<p class="p1"><span class="Apple-converted-space">    </span>href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"</p>
+<p class="p1"><span class="Apple-converted-space">    </span>integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"</p>
+<p class="p1"><span class="Apple-converted-space">    </span>crossorigin="anonymous"</p>
+<p class="p1"><span class="Apple-converted-space">  </span>/&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- Eigene Styles --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;link rel="stylesheet" href="styles.css" /&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- Globaler Seitenrahmen --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;header class="bg-dark text-light py-3 mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="container d-flex align-items-center justify-content-between"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="d-flex align-items-center gap-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Platzhalter-Logo --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="logo-circle"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h1 class="h4 mb-0"&gt;Global CO₂ Footprint Monitor&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;nav&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;ul class="nav"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;li class="nav-item"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;a class="nav-link text-light" href="#dashboard"&gt;Dashboard&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;li class="nav-item"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;a class="nav-link text-light" href="#about"&gt;Über das Projekt&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/nav&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/header&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;main class="container mb-5"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Lokales Menü (wird später dynamisch je nach Sprache links/rechts ausgerichtet) --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;aside id="local-menu" class="mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;nav class="nav flex-column"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;a class="nav-link px-0" href="#dashboard"&gt;Emissionstabellen&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;a class="nav-link px-0" href="#filters"&gt;Filter &amp; Sortierung&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;a class="nav-link px-0" href="#about"&gt;Über diese Seite&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/nav&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/aside&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Content-Bereich --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;section id="dashboard" class="mb-5"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;h2 class="h5 mb-3"&gt;CO₂-Emissionsdaten&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="text-muted"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Fiktive CO₂-Emissionsdaten von Ländern und Unternehmen (pro Jahr).</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/p&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;!-- Filterbereich (wird später per JS angebunden) --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;section id="filters" class="card card-body mb-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;form id="filter-form" class="row g-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="col-md-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label for="country-filter" class="form-label"&gt;Land&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input</p>
+<p class="p1"><span class="Apple-converted-space">              </span>type="text"</p>
+<p class="p1"><span class="Apple-converted-space">              </span>id="country-filter"</p>
+<p class="p1"><span class="Apple-converted-space">              </span>class="form-control"</p>
+<p class="p1"><span class="Apple-converted-space">              </span>placeholder="z. B. Germany"</p>
+<p class="p1"><span class="Apple-converted-space">            </span>/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="col-md-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label for="company-filter" class="form-label"&gt;Unternehmen&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input</p>
+<p class="p1"><span class="Apple-converted-space">              </span>type="text"</p>
+<p class="p1"><span class="Apple-converted-space">              </span>id="company-filter"</p>
+<p class="p1"><span class="Apple-converted-space">              </span>class="form-control"</p>
+<p class="p1"><span class="Apple-converted-space">              </span>placeholder="z. B. GreenCorp"</p>
+<p class="p1"><span class="Apple-converted-space">            </span>/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="col-md-4 d-flex align-items-end"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button type="submit" class="btn btn-primary me-2"&gt;Filter anwenden&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button type="button" id="reset-filters" class="btn btn-outline-secondary"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>Zurücksetzen</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/form&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;!-- Tabelle mit CO₂-Daten (Inhalt kommt später per JS) --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="table-responsive"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;table id="emissions-table" class="table table-striped table-hover align-middle"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;thead&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;th data-sort-key="country"&gt;Land&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;th data-sort-key="company"&gt;Unternehmen&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;th data-sort-key="sector"&gt;Sektor&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;th data-sort-key="year"&gt;Jahr&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;th data-sort-key="emissions"&gt;CO₂-Emissionen (Mt)&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/thead&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;tbody&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- Zeilen werden später dynamisch per JavaScript eingefügt --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/tbody&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/table&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;section id="about" class="mb-5"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;h2 class="h5 mb-3"&gt;Über dieses Projekt&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Diese Seite ist eine fiktive Demonstration zur Visualisierung von CO₂-Emissionsdaten.</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Alle Zahlen sind frei erfunden und dienen nur zu Demonstrationszwecken.</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/main&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;footer class="bg-light border-top py-3 mt-auto"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="container small text-muted d-flex flex-column flex-sm-row justify-content-between"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;span&gt;© 2025 Non-Profit Organization „Climate Transparency“&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;a href="#imprint"&gt;Impressum&lt;/a&gt; ·</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;a href="#privacy"&gt;Datenschutz&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/footer&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- Bootstrap JS (für später, falls wir Komponenten nutzen wollen) --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script</p>
+<p class="p1"><span class="Apple-converted-space">    </span>src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"</p>
+<p class="p1"><span class="Apple-converted-space">    </span>integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"</p>
+<p class="p1"><span class="Apple-converted-space">    </span>crossorigin="anonymous"</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&gt;&lt;/script&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- Eigene Logik --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="app.js"&gt;&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>

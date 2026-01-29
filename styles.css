@@ -1,0 +1,19 @@
+/* Einfaches Logo als Kreis */
+.logo-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+
+/* Layout für das lokale Menü (links) – später passen wir das dynamisch an */
+#local-menu {
+  max-width: 260px;
+}
+
+/* Auf kleineren Bildschirmen: Menü oben */
+@media (max-width: 768px) {
+  #local-menu {
+    margin-bottom: 1rem;
+  }
+}
