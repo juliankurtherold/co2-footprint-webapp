@@ -1,29 +1,94 @@
-/* Platzhalter-Logo als Kreis */
+/* ---------- Basis ---------- */
+body {
+  background-color: #f8f9fa;
+}
+
+main {
+  min-height: 70vh;
+}
+
+/* ---------- Logo ---------- */
 .logo-circle {
   width: 32px;
   height: 32px;
   border-radius: 50%;
   border: 2px solid #fff;
+  background: linear-gradient(135deg, #4caf50, #2e7d32);
 }
 
-/* Flex-Layout für lokales Menü + Inhalt */
+/* ---------- Layout ---------- */
 .layout-flex {
   display: flex;
   align-items: flex-start;
   gap: 2rem;
 }
 
-/* Lokales Menü */
 #local-menu {
-  max-width: 260px;
+  max-width: 240px;
+  padding: 0.5rem 1.25rem 0.5rem 0;
+  margin-right: 1rem;
+  border-right: 1px solid #dee2e6;
 }
 
+/* RTL-Schriftkulturen (z. B. Arabisch, Hebräisch) */
+body.rtl-layout #local-menu {
+  padding: 0.5rem 0 0.5rem 1.25rem;
+  margin-right: 0;
+  margin-left: 1rem;
+  border-right: none;
+  border-left: 1px solid #dee2e6;
+}
+
+body.rtl-layout #local-menu {
+  border-right: none;
+  border-left: 1px solid #dee2e6;
+}
+
+/* ---------- Lokales Menü ---------- */
 #local-menu .nav-link {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
+  color: #495057;
+  padding: 0.4rem 0;
 }
 
-/* Mobil: Menü oben, Inhalt darunter */
+#local-menu .nav-link:hover {
+  color: #0d6efd;
+  text-decoration: underline;
+}
+
+/* ---------- Tabelle ---------- */
+#emissions-table {
+  background-color: #fff;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+#emissions-table thead th {
+  cursor: pointer;
+  user-select: none;
+  background-color: #f1f3f5;
+}
+
+#emissions-table thead th.sort-active {
+  color: #0d6efd;
+}
+
+#emissions-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* ---------- Filterkarte ---------- */
+#filters {
+  border: none;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* ---------- Kein Ergebnis ---------- */
+#no-results {
+  font-style: italic;
+}
+
+/* ---------- Mobile ---------- */
 @media (max-width: 768px) {
   .layout-flex {
     flex-direction: column;
@@ -31,26 +96,8 @@
 
   #local-menu {
     max-width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #dee2e6;
+    margin-bottom: 1rem;
   }
-}
-
-/* Rechts-/links-Ausrichtung je nach Schriftkultur */
-body.rtl-layout .layout-flex {
-  flex-direction: row-reverse;
-}
-
-/* Sortier-Indikator in Tabellenkopf */
-#emissions-table thead th {
-  cursor: pointer;
-  user-select: none;
-  white-space: nowrap;
-}
-
-#emissions-table thead th.sort-active {
-  text-decoration: underline;
-}
-
-/* Hinweis, wenn keine Daten vorhanden sind */
-#no-results {
-  margin-top: 0.5rem;
 }
