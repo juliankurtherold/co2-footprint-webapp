@@ -46,11 +46,6 @@ body.rtl-layout #local-menu {
   border-left: 1px solid #dee2e6;
 }
 
-body.rtl-layout #local-menu {
-  border-right: none;
-  border-left: 1px solid #dee2e6;
-}
-
 /* ---------- Lokales Menü ---------- */
 #local-menu .nav-link {
   color: #495057;
